@@ -1,0 +1,40 @@
+services:
+  file-service:
+    build: .
+    ports:
+      - "8083:8080"
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/files?sslmode=disable
+      - PUBSUB_EMULATOR_HOST=pubsub:8085
+      - GCS_BUCKET=lowcarbon-files
+      - PORT=8080
+    depends_on:
+      postgres:
+        condition: service_healthy
+      pubsub:
+        condition: service_started
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: files
+    ports:
+      - "5435:5432"
+    volumes:
+      - file-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  pubsub:
+    image: gcr.io/google.com/cloudsdktool/cloud-sdk
+    command: gcloud beta emulators pubsub start --host-port=0.0.0.0:8085
+    ports:
+      - "8085:8085"
+
+volumes:
+  file-pgdata:
