@@ -28,6 +28,7 @@ steps:
       - --platform=managed
       - --add-cloudsql-instances=low-carbon-491109:southamerica-east1:low-carbon-postgres
       - --set-env-vars=DATABASE_URL=postgres://lowcarbon:LowCarbonDB2026!@/file?host=/cloudsql/low-carbon-491109:southamerica-east1:low-carbon-postgres&sslmode=disable,REDIS_ADDR=10.196.131.139:6379,JWT_SECRET=super-secret-jwt-key-change-in-production-2026,GCS_BUCKET_NAME=lowcarbon-files
+      - --service-account=low-carbon-file-service-sa@low-carbon-491109.iam.gserviceaccount.com
 
 substitutions:
   _REGION: southamerica-east1
