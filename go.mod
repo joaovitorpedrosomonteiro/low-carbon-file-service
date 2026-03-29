@@ -1,6 +1,6 @@
 module github.com/joaovitorpedrosomonteiro/low-carbon-file-service
 
-go 1.25.0
+go 1.22
 
 require (
 	cloud.google.com/go/pubsub v1.50.1
