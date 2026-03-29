@@ -3,7 +3,7 @@ options:
 
 steps:
   - id: test
-    name: golang:1.22
+    name: golang:1.26
     entrypoint: go
     args: ["build", "./..."]
 
